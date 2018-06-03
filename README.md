@@ -43,7 +43,7 @@ nano __init__.py
 
 
 
-Here is where we have our initialization script for our Flask application. You can actually keep all of your main website code right here for simplicity's sake, and that's what we'll be doing. Within your __init__.py file, you will type:
+Here is where we have our initialization script for our Flask application. You can actually keep all of your main website code right here for simplicity's sake, and that's what we'll be doing. Within your init.py file, you will type:
 
 #! /bin/usr/python
 from flask import Flask
@@ -52,18 +52,12 @@ app = Flask(__name__)
 
 @app.route('/')
 def homepage():
-    return "Hi there, how ya doin?"
+    return "Hello From Flask"
 
 
 if __name__ == "__main__":
     app.run()
-
-
-Press control+x to save it, yes, enter.
-Now we should probably actually get Flask. Let's do that now.
-Since this is likely a new server for you, you will want to go ahead and run:
-apt-get update
-apt-get upgrade
+==========================================
 
 To get Flask, we're going to use pip, so you will need to first get pip if you do not already have it:
 apt-get install python-pip
@@ -77,23 +71,21 @@ sudo virtualenv venv
 Activate the virtual environment:
 source venv/bin/activate
 
-Now install Flask within your virtual environment
+Now install Flask within your virtual environment:
+
 pip install Flask
 
 Find out if everything worked out by going:
-python __init__.py
+python init.py
 
-If you didn't get any major errors, congrats!
-Hit control+c to get out of the running text, then type deactivate to stop the virtual environment running locally. This is only a local version, so you wont be able to type in anything to your browser to access it.
 ==========================
 So now we need to set up our Flask configuration file:
-nano /etc/apache2/sites-available/FlaskApp.conf
+vi /etc/apache2/sites-available/FlaskApp.conf
 
 This is where your Flask configuration goes, which will apply to your live web site. Here's the code that you need to include:
 
-<VirtualHost *:80>
-                ServerName yourdomain.com(yours system ipaddress)
-                ServerAdmin youemail@email.com
+<VirtualHost *:80
+                ServerAdmin jhonesava123@gmail.com
                 WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
                 <Directory /var/www/FlaskApp/FlaskApp/>
                         Order allow,deny
@@ -108,17 +100,15 @@ This is where your Flask configuration goes, which will apply to your live web s
                 LogLevel warn
                 CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+====================
 
-For your notes, if you want to add more domains/subdomains that point to the same Flask App, or a different app entirely, you can use a ServerAlias, added underneath the ServerAdmin line.
-We are now ready to enable the server.
-Run:
 sudo a2ensite FlaskApp
 service apache2 reload
 
 Almost there... now we just need to configure our WSGI file. To do this:
 cd /var/www/FlaskApp
 ===========
-nano flaskapp.wsgi
+vi flaskapp.wsgi
 Within the wsgi file, enter:
 
 #!/usr/bin/python
@@ -127,16 +117,14 @@ import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/FlaskApp/")
 
-from FlaskApp import app as application
-application.secret_key = 'fhkjdskjgf(anything)’
+from FlaskApp import app as applicatio
+================================
 
-
-Save and exit.
-Once that is done, run:
 service apache2 restart
 
 
 Then goto your web browser and type the ip address.
+
 Thanks
 
 ==========================================================================
