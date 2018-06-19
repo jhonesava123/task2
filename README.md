@@ -4,38 +4,38 @@ SSH Port 2200
 URL 13.232.58.110.xip.io
 # Summary
 First, you'll need to run:
-sudo apt-get install apache2 mysql-client mysql-server
+# sudo apt-get install apache2 mysql-client mysql-server
 
 Once you do that, you'll get the start up page for MySQL, where you will need to set your root user for MySQL. This is the specific MySQL root user, not your server root user.
 That setup should take about 20-30 seconds. After that, we need to get WSGI, so run the following:
-sudo apt-get install libapache2-mod-wsgi
+# sudo apt-get install libapache2-mod-wsgi
 
 Once we have that, we need to make sure we've enabled WSGI with the following:
-sudo a2enmod wsgi
+# sudo a2enmod wsgi
 
 It is probably already enabled from the installation, but it is a good idea to make sure.
 Next we are ready to set up our Flask environment.
 Run:
-cd /var/www/
+# cd /var/www/
 
 Now let's make our Flask environment directory:
-mkdir FlaskApp
+# mkdir FlaskApp
 
 Move into that directory:
-cd FlaskApp
+# cd FlaskApp
 
 Now make the actual application directory:
-mkdir FlaskApp
+# mkdir FlaskApp
 
 Now let's go in there:
-cd FlaskApp/
+# cd FlaskApp/
 
 Now we're going to make two directories, static and template:
-mkdir static
-mkdir templates
+# mkdir static
+# mkdir templates
 
 Now we're ready to create the main file for your first Flask App:
-nano __init__.py
+# nano __init__.py
 
 
 
@@ -60,27 +60,27 @@ if __name__ == "__main__":
 ==========================================
 
 To get Flask, we're going to use pip, so you will need to first get pip if you do not already have it:
-apt-get install python-pip
+# apt-get install python-pip
 
 Now that we have pip, we also need virtualenv to create the virtual environment for Flask to run Python and your application in:
-pip install virtualenv
+# pip install virtualenv
 
 Now to set up the virtualenv directory:
-sudo virtualenv venv
+# sudo virtualenv venv
 
 Activate the virtual environment:
-source venv/bin/activate
+# source venv/bin/activate
 
 Now install Flask within your virtual environment:
 
-pip install Flask
+# pip install Flask
 
 Find out if everything worked out by going:
-python init.py
+# python __init__.py
 
 ==========================
 So now we need to set up our Flask configuration file:
-vi /etc/apache2/sites-available/FlaskApp.conf
+# vi /etc/apache2/sites-available/FlaskApp.conf
 
 This is where your Flask configuration goes, which will apply to your live web site. Here's the code that you need to include:
 
@@ -102,13 +102,13 @@ This is where your Flask configuration goes, which will apply to your live web s
 </VirtualHost>
 ====================
 
-sudo a2ensite FlaskApp
-service apache2 reload
+# sudo a2ensite FlaskApp
+# service apache2 reload
 
 Almost there... now we just need to configure our WSGI file. To do this:
-cd /var/www/FlaskApp
+# cd /var/www/FlaskApp
 ===========
-vi flaskapp.wsgi
+# vi flaskapp.wsgi
 Within the wsgi file, enter:
 
 #!/usr/bin/python
@@ -120,7 +120,7 @@ sys.path.insert(0,"/var/www/FlaskApp/")
 from FlaskApp import app as applicatio
 ================================
 
-service apache2 restart
+# service apache2 restart
 
 
 Then goto your web browser and type the ip address.
